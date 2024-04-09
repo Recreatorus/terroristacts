@@ -9,39 +9,39 @@ class CollapsibleTimeline {
     this.el?.addEventListener('click', this.itemAction.bind(this));
   }
   animateItemAction(e, t, i, a) {
-    let n = 'timeline__item-body--expanded',
-      l = { duration: 300, easing: 'cubic-bezier(0.65,0,0.35,1)' };
+    let r = 'timeline__item-body--expanded',
+      n = { duration: 300, easing: 'cubic-bezier(0.65,0,0.35,1)' };
     a
       ? ((e.ariaExpanded = 'false'),
         (t.ariaHidden = 'true'),
-        t.classList.remove(n),
-        (l.duration *= 2),
-        (this.animation = t.animate([{ height: `${i}px` }, { height: `${i}px` }, { height: '0px' }], l)))
+        t.classList.remove(r),
+        (n.duration *= 2),
+        (this.animation = t.animate([{ height: `${i}px` }, { height: `${i}px` }, { height: '0px' }], n)))
       : ((e.ariaExpanded = 'true'),
         (t.ariaHidden = 'false'),
-        t.classList.add(n),
-        (this.animation = t.animate([{ height: '0px' }, { height: `${i}px` }], l)));
+        t.classList.add(r),
+        (this.animation = t.animate([{ height: '0px' }, { height: `${i}px` }], n)));
   }
   itemAction(e) {
     let { target: t } = e,
       i = t?.getAttribute('data-action'),
       a = t?.getAttribute('data-item');
     if (i) {
-      let n = Array.from(this.el?.querySelectorAll(`[aria-expanded="${'expand' === i ? 'false' : 'true'}"]`)),
-        l = 'collapse' === i;
-      for (let r of n) {
-        let d = r.getAttribute('data-item'),
-          s = this.el?.querySelector(`#item${d}-ctrld`),
-          o = s.firstElementChild?.offsetHeight;
-        this.animateItemAction(r, s, o, l);
+      let r = Array.from(this.el?.querySelectorAll(`[aria-expanded="${'expand' === i ? 'false' : 'true'}"]`)),
+        n = 'collapse' === i;
+      for (let l of r) {
+        let s = l.getAttribute('data-item'),
+          d = this.el?.querySelector(`#item${s}-ctrld`),
+          o = d.firstElementChild?.offsetHeight;
+        this.animateItemAction(l, d, o, n);
       }
     } else if (a) {
-      let m = this.el?.querySelector(`[data-item="${a}"]`),
-        c = m?.getAttribute('aria-expanded');
-      if (!c) return;
-      let h = this.el?.querySelector(`#item${a}-ctrld`),
-        u = h.firstElementChild?.offsetHeight;
-      this.animateItemAction(m, h, u, 'true' === c);
+      let c = this.el?.querySelector(`[data-item="${a}"]`),
+        h = c?.getAttribute('aria-expanded');
+      if (!h) return;
+      let m = this.el?.querySelector(`#item${a}-ctrld`),
+        u = m.firstElementChild?.offsetHeight;
+      this.animateItemAction(c, m, u, 'true' === h);
     }
   }
 }
@@ -52,4 +52,17 @@ const runColorMode = (e) => {
 };
 runColorMode((e) => {
   e ? document.documentElement.classList.add('dark-mode') : document.documentElement.classList.remove('dark-mode');
+});
+const btn = document.querySelector('#sharebutton');
+btn.addEventListener('click', () => {
+  navigator.share
+    ? navigator
+        .share({
+          title: 'Теракты в России',
+          text: 'Крупнейшие теракты с 2000 года',
+          url: 'https://recreatorus.github.io/terroristacts/index.html',
+        })
+        .then(() => console.log('Контент успешно обменен'))
+        .catch((e) => console.error('Ошибка обмена контентом:', e))
+    : console.log('Web Share API не поддерживается в данном браузере');
 });
