@@ -31,17 +31,17 @@ class CollapsibleTimeline {
         n = 'collapse' === i;
       for (let l of r) {
         let s = l.getAttribute('data-item'),
-          d = this.el?.querySelector(`#item${s}-ctrld`),
-          o = d.firstElementChild?.offsetHeight;
-        this.animateItemAction(l, d, o, n);
+          o = this.el?.querySelector(`#item${s}-ctrld`),
+          d = o.firstElementChild?.offsetHeight;
+        this.animateItemAction(l, o, d, n);
       }
     } else if (a) {
       let c = this.el?.querySelector(`[data-item="${a}"]`),
-        h = c?.getAttribute('aria-expanded');
-      if (!h) return;
-      let m = this.el?.querySelector(`#item${a}-ctrld`),
-        u = m.firstElementChild?.offsetHeight;
-      this.animateItemAction(c, m, u, 'true' === h);
+        m = c?.getAttribute('aria-expanded');
+      if (!m) return;
+      let h = this.el?.querySelector(`#item${a}-ctrld`),
+        u = h.firstElementChild?.offsetHeight;
+      this.animateItemAction(c, h, u, 'true' === m);
     }
   }
 }
@@ -53,16 +53,15 @@ const runColorMode = (e) => {
 runColorMode((e) => {
   e ? document.documentElement.classList.add('dark-mode') : document.documentElement.classList.remove('dark-mode');
 });
-const btn = document.querySelector('#sharebutton');
+const btn = document.querySelector('#sharebutton'),
+  currentUrl = window.location.href,
+  pageTitle = document.title,
+  metaDescription = document.querySelector('meta[name="description"]').getAttribute('content');
 btn.addEventListener('click', () => {
   navigator.share
     ? navigator
-        .share({
-          title: 'Теракты в России',
-          text: 'Крупнейшие теракты с 2000 года',
-          url: 'https://recreatorus.github.io/terroristacts/index.html',
-        })
-        .then(() => console.log('Контент успешно обменен'))
-        .catch((e) => console.error('Ошибка обмена контентом:', e))
+        .share({ title: `${pageTitle}`, text: `${metaDescription}`, url: `${currentUrl}` })
+        .then(() => console.log('Shared successfully'))
+        .catch((e) => console.error('Error:', e))
     : console.log('Web Share API не поддерживается в данном браузере');
 });
