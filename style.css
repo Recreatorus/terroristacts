@@ -109,7 +109,9 @@ img {
   margin-bottom: 24px;
 }
 .timeline__item-p {
-  margin-bottom: 12px;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+  line-height: 1.33;
 }
 .timeline__arrow {
   position: relative;
@@ -198,7 +200,7 @@ img {
   margin-inline-start: 4em;
 }
 .timeline__item-body-content {
-  padding: 0.5em 0.75em;
+  padding: 24px;
   visibility: hidden;
   opacity: 0;
   transition: opacity var(--trans-dur) var(--trans-timing), visibility var(--trans-dur) steps(1, end);
